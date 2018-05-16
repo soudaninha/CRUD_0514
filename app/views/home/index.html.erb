@@ -1,0 +1,24 @@
+<h1>List of Posts!</h1>
+<br><br>
+    <%@posts.each do |x| %>
+    <%=x.user_email%><br>
+        Title: <%=x.title%> <br><br>
+        Content: <%=x.content%><br>
+        <a href='/home/destroy/<%=x.id%>'>[DELETE]</a><br>
+        <a href='/home/edit/<%=x.id%>'>[EDIT]</a><br>
+        Comments<br>
+        <%x.comments.each do |comment| %>
+        <%= comment.user_email %>: <%= comment.content%><br>
+        <a href="/home/comment_destroy/<%= comment.id%>">delete</a><br>       
+        <% end %> 
+        <form action='/home/comment_write' method ='post'>
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <textarea class="form-control" name="content"></textarea>
+            <input type="hidden" name="user_email" value="<%=current_user.email%>">
+            <input type="hidden" name="post_id" value="<%=x.id%>">
+            <input type="submit" value="SUBMIT">
+        </form>
+    <%end%>
+    
+    
+    <a href ="/home/new">Write a new post</a>
